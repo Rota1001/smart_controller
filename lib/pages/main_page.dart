@@ -122,7 +122,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   void onControlButtonPressed(){
-    print('Control');
+    print('Control');//control
   }
 
   void onAddDevicebuttonPressed(){
