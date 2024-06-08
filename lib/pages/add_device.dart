@@ -10,6 +10,10 @@ class AddDevice extends StatefulWidget {
 class _AddDeviceState extends State<AddDevice> {
   @override
   Widget build(BuildContext context) {
-    return const Text("add device");
+    return Container(
+        decoration: const BoxDecoration(
+        color: Color(0xFF457B9D)
+      )
+    );
   }
 }

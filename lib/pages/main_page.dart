@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:smart_controller/pages/add_device.dart';
+import 'package:smart_controller/pages/pair_page.dart';
+import 'package:smart_controller/pages/control_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -118,11 +120,11 @@ class _MainPageState extends State<MainPage> {
     );
   }
   void onPairButtonPressed(){
-    print("pair");
+    Navigator.push(context, MaterialPageRoute(builder: (context) => PairPage()));
   }
 
   void onControlButtonPressed(){
-    print('Control');//control
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ControlPage()));
   }
 
   void onAddDevicebuttonPressed(){
