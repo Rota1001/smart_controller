@@ -4,15 +4,19 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:smart_controller/pages/add_device.dart';
 import 'package:smart_controller/pages/pair_page.dart';
 import 'package:smart_controller/pages/control_page.dart';
+import 'package:smart_controller/items/control_button.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
-
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
+
+
 class _MainPageState extends State<MainPage> {
+  ControlButton button1 = ControlButton(name:"button", signal: 1);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,7 +107,7 @@ class _MainPageState extends State<MainPage> {
                         minimumSize: const Size(277, 67)
                     ),
                     child: Text(
-                        'Add device',
+                        'Device Setting',
                         style: GoogleFonts.getFont(
                             'Staatliches',
                             fontWeight: FontWeight.w400,
@@ -119,12 +123,15 @@ class _MainPageState extends State<MainPage> {
       )
     );
   }
-  void onPairButtonPressed(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => PairPage()));
+  Future<void> onPairButtonPressed() async {
+    ControlButton result = await Navigator.push(context, MaterialPageRoute(builder: (context) => PairPage()));
+    print(result.name);
+    print(result.signal);
+
   }
 
   void onControlButtonPressed(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ControlPage()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ControlPage(button1)));
   }
 
   void onAddDevicebuttonPressed(){

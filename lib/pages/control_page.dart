@@ -1,14 +1,18 @@
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_controller/items/control_button.dart';
 
 class ControlPage extends StatefulWidget {
-  const ControlPage({super.key});
-
+  final ControlButton button1;
+  const ControlPage(this.button1, {Key? key}): super(key: key);
+  // const ControlPage({super.key});
   @override
-  State<ControlPage> createState() => _ControlPageState();
+  State<ControlPage> createState() => _ControlPageState(this.button1);
 }
 
 class _ControlPageState extends State<ControlPage> {
+  ControlButton button1;
+  _ControlPageState(this.button1);
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -153,6 +157,7 @@ class _ControlPageState extends State<ControlPage> {
     );
   }
   void onButton1Pressed(){
+    print(this.button1.name);
     print("Button1 Pressed");
   }
   void onButton2Pressed(){
