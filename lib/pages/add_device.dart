@@ -4,15 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 
 class AddDevice extends StatefulWidget {
-  const AddDevice({super.key});
+  final List<ControlButton> buttonList;
+  const AddDevice(this.buttonList, {Key? key}): super(key: key);
+  // const AddDevice({super.key});
 
   @override
-  State<AddDevice> createState() => _AddDeviceState();
+  State<AddDevice> createState() => _AddDeviceState(buttonList);
 }
 
 class _AddDeviceState extends State<AddDevice> {
-  var modified = <ControlButton>[];
+  List<ControlButton> buttonList;
+  _AddDeviceState(this.buttonList);
   StreamController<bool> busy = StreamController();
+  TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
@@ -37,7 +41,7 @@ class _AddDeviceState extends State<AddDevice> {
                           ),
                           disabledColor: Color(0xFFC9D1C7),
                           onPressed: snapshot.data!? null : (){
-                            Navigator.pop(context, modified);
+                            Navigator.pop(context);
                           }
                       )
                   ),
@@ -54,7 +58,7 @@ class _AddDeviceState extends State<AddDevice> {
                               disabledBackgroundColor: const Color(0xFFC9D1C7)
                           ),
                           child: Text(
-                              'Button1',
+                              buttonList[0].name,
                               style: GoogleFonts.getFont(
                                   'Staatliches',
                                   fontWeight: FontWeight.w400,
@@ -78,7 +82,7 @@ class _AddDeviceState extends State<AddDevice> {
                               disabledBackgroundColor: const Color(0xFFC9D1C7)
                           ),
                           child: Text(
-                              'Button2',
+                              buttonList[1].name,
                               style: GoogleFonts.getFont(
                                   'Staatliches',
                                   fontWeight: FontWeight.w400,
@@ -102,7 +106,7 @@ class _AddDeviceState extends State<AddDevice> {
                               disabledBackgroundColor: const Color(0xFFC9D1C7)
                           ),
                           child: Text(
-                              'Button3',
+                              buttonList[2].name,
                               style: GoogleFonts.getFont(
                                   'Staatliches',
                                   fontWeight: FontWeight.w400,
@@ -126,7 +130,7 @@ class _AddDeviceState extends State<AddDevice> {
                               disabledBackgroundColor: const Color(0xFFC9D1C7)
                           ),
                           child: Text(
-                              'Button4',
+                              buttonList[3].name,
                               style: GoogleFonts.getFont(
                                   'Staatliches',
                                   fontWeight: FontWeight.w400,
@@ -150,7 +154,7 @@ class _AddDeviceState extends State<AddDevice> {
                               disabledBackgroundColor: const Color(0xFFC9D1C7)
                           ),
                           child: Text(
-                              'Button5',
+                              buttonList[4].name,
                               style: GoogleFonts.getFont(
                                   'Staatliches',
                                   fontWeight: FontWeight.w400,
@@ -170,26 +174,27 @@ class _AddDeviceState extends State<AddDevice> {
   }
   void onButton1Pressed(){
     busy.add(true);
-    modified.add(modifyButton(1));
-    // await modified.add(modifyButton(1));
-    // modified.add(ControlButton(id:1, name: "Button1", signal: 3));
-    // busy.add(false);
+    modifyButton(0);
     print("Button1 Pressed");
   }
   void onButton2Pressed(){
-    modified.add(ControlButton(id:2, name: "Button2", signal: 3));
+    busy.add(true);
+    modifyButton(1);
     print("Button2 Pressed");
   }
   void onButton3Pressed(){
-    modified.add(ControlButton(id: 3, name: "Button3", signal: 3));
+    busy.add(true);
+    modifyButton(2);
     print("Button3 Pressed");
   }
   void onButton4Pressed(){
-    modified.add(ControlButton(id: 4, name: "Button4", signal: 3));
+    busy.add(true);
+    modifyButton(3);
     print("Button4 Pressed");
   }
   void onButton5Pressed(){
-    modified.add(ControlButton(id: 5, name: "Button5", signal: 3));
+    busy.add(true);
+    modifyButton(4);
     print("Button5 Pressed");
   }
 
@@ -202,7 +207,17 @@ class _AddDeviceState extends State<AddDevice> {
       actions: [
         Column(
           children: [
-
+            TextField(
+              enableInteractiveSelection: false,
+              controller: nameController,
+              cursorColor: Color(0xFF1D3557),
+              decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF1D3557))
+                  ),
+                  hintText: "Name"
+              ),
+            ),
             ElevatedButton(
                 onPressed: (){
                   Navigator.pop(context);
@@ -231,6 +246,7 @@ class _AddDeviceState extends State<AddDevice> {
 
       ]
     );
+    nameController.text = buttonList[id].name;
     showDialog(
       useRootNavigator: false,
       context: context,
@@ -239,6 +255,8 @@ class _AddDeviceState extends State<AddDevice> {
       }
     ).then((s){
       busy.add(false);
+      buttonList[id].name = nameController.text;
+      // print(nameController.text);
     });
     // busy.add(false);
     return ControlButton(id: id, name: "", signal: 1);

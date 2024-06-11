@@ -4,16 +4,16 @@ import 'package:smart_controller/items/control_button.dart';
 
 
 class ControlPage extends StatefulWidget {
-  final ControlButton button1;
-  const ControlPage(this.button1, {Key? key}): super(key: key);
+  final List<ControlButton> buttonList;
+  const ControlPage(this.buttonList, {Key? key}): super(key: key);
   // const ControlPage({super.key});
   @override
-  State<ControlPage> createState() => _ControlPageState(this.button1);
+  State<ControlPage> createState() => _ControlPageState(this.buttonList);
 }
 
 class _ControlPageState extends State<ControlPage> {
-  ControlButton button1;
-  _ControlPageState(this.button1);
+  List<ControlButton> buttonList;
+  _ControlPageState(this.buttonList);
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -49,7 +49,7 @@ class _ControlPageState extends State<ControlPage> {
                         minimumSize: const Size(277, 67)
                     ),
                     child: Text(
-                        'Button1',
+                        buttonList[0].name,
                         style: GoogleFonts.getFont(
                             'Staatliches',
                             fontWeight: FontWeight.w400,
@@ -72,7 +72,7 @@ class _ControlPageState extends State<ControlPage> {
                         minimumSize: const Size(277, 67)
                     ),
                     child: Text(
-                        'Button2',
+                        buttonList[1].name,
                         style: GoogleFonts.getFont(
                             'Staatliches',
                             fontWeight: FontWeight.w400,
@@ -95,7 +95,7 @@ class _ControlPageState extends State<ControlPage> {
                         minimumSize: const Size(277, 67)
                     ),
                     child: Text(
-                        'Button3',
+                        buttonList[2].name,
                         style: GoogleFonts.getFont(
                             'Staatliches',
                             fontWeight: FontWeight.w400,
@@ -118,7 +118,7 @@ class _ControlPageState extends State<ControlPage> {
                         minimumSize: const Size(277, 67)
                     ),
                     child: Text(
-                        'Button4',
+                        buttonList[3].name,
                         style: GoogleFonts.getFont(
                             'Staatliches',
                             fontWeight: FontWeight.w400,
@@ -141,7 +141,7 @@ class _ControlPageState extends State<ControlPage> {
                         minimumSize: const Size(277, 67)
                     ),
                     child: Text(
-                        'Button5',
+                        buttonList[4].name,
                         style: GoogleFonts.getFont(
                             'Staatliches',
                             fontWeight: FontWeight.w400,
@@ -158,7 +158,6 @@ class _ControlPageState extends State<ControlPage> {
     );
   }
   void onButton1Pressed(){
-    print(this.button1.name);
     print("Button1 Pressed");
   }
   void onButton2Pressed(){

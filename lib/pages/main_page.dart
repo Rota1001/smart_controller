@@ -16,7 +16,13 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   ControlButton button1 = ControlButton(id:1, name:"button", signal: 1);
-
+  List<ControlButton> buttonList = [
+    ControlButton(id: 0, name: "button", signal: 1),
+    ControlButton(id: 1, name: "button", signal: 2),
+    ControlButton(id: 2, name: "button", signal: 3),
+    ControlButton(id: 3, name: "button", signal: 4),
+    ControlButton(id: 4, name: "button", signal: 5),
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -129,12 +135,13 @@ class _MainPageState extends State<MainPage> {
   }
 
   void onControlButtonPressed(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ControlPage(button1)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ControlPage(buttonList)));
   }
 
   Future<void> onAddDevicebuttonPressed() async {
-    List<ControlButton> result = await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice()));
-    for(ControlButton b in result){
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice(buttonList)));
+
+    for(ControlButton b in buttonList){
       print(b.name);
     }
   }
