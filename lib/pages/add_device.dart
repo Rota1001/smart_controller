@@ -18,12 +18,12 @@ class _AddDeviceState extends State<AddDevice> {
         child: Column(
           children: [
             Container(
-                padding: const EdgeInsets.fromLTRB(5,45,0,0),
+                padding: const EdgeInsets.fromLTRB(15,55,0,0),
                 alignment: Alignment.topLeft,
                 child:  IconButton(
                     icon: const Icon(
                         Icons.arrow_back,
-                        size: 48,
+                        size: 35,
                         color: Color(0xFFF1FAEE)
                     ),
                     onPressed: (){
