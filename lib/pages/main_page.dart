@@ -15,7 +15,7 @@ class MainPage extends StatefulWidget {
 
 
 class _MainPageState extends State<MainPage> {
-  ControlButton button1 = ControlButton(name:"button", signal: 1);
+  ControlButton button1 = ControlButton(id:1, name:"button", signal: 1);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
                     fontWeight: FontWeight.w400,
                     fontSize: 125,
                     height: 1,
-                    color: const Color(0xFF0B1727)
+                    color: const Color(0xFF12315D)
                 )
 
             ),
@@ -46,7 +46,7 @@ class _MainPageState extends State<MainPage> {
                     fontWeight: FontWeight.w400,
                     fontSize: 63,
                     height: 1,
-                    color: const Color(0xFF0B1727)
+                    color: const Color(0xFF12315D)
                 )
             ),
             Container(
@@ -54,7 +54,7 @@ class _MainPageState extends State<MainPage> {
               child: ElevatedButton(
                 onPressed: onPairButtonPressed,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFF1FAEE),
+                    backgroundColor: const Color(0xFFC9D1C7),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)
                     ),
@@ -77,7 +77,7 @@ class _MainPageState extends State<MainPage> {
                 child: ElevatedButton(
                     onPressed: onControlButtonPressed,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF1FAEE),
+                        backgroundColor: const Color(0xFFC9D1C7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
                         ),
@@ -100,7 +100,7 @@ class _MainPageState extends State<MainPage> {
                 child: ElevatedButton(
                     onPressed: onAddDevicebuttonPressed,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF1FAEE),
+                        backgroundColor: const Color(0xFFC9D1C7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
                         ),
@@ -124,9 +124,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
   Future<void> onPairButtonPressed() async {
-    ControlButton result = await Navigator.push(context, MaterialPageRoute(builder: (context) => PairPage()));
-    print(result.name);
-    print(result.signal);
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => PairPage()));
 
   }
 
@@ -134,7 +132,10 @@ class _MainPageState extends State<MainPage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => ControlPage(button1)));
   }
 
-  void onAddDevicebuttonPressed(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice()));
+  Future<void> onAddDevicebuttonPressed() async {
+    List<ControlButton> result = await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice()));
+    for(ControlButton b in result){
+      print(b.name);
+    }
   }
 }

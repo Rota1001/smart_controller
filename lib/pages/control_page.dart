@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_controller/items/control_button.dart';
 
+
 class ControlPage extends StatefulWidget {
   final ControlButton button1;
   const ControlPage(this.button1, {Key? key}): super(key: key);
@@ -41,7 +42,7 @@ class _ControlPageState extends State<ControlPage> {
                 child: ElevatedButton(
                     onPressed: onButton1Pressed,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF1FAEE),
+                        backgroundColor: const Color(0xFFC9D1C7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
                         ),
@@ -64,7 +65,7 @@ class _ControlPageState extends State<ControlPage> {
                 child: ElevatedButton(
                     onPressed: onButton2Pressed,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF1FAEE),
+                        backgroundColor: const Color(0xFFC9D1C7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
                         ),
@@ -87,7 +88,7 @@ class _ControlPageState extends State<ControlPage> {
                 child: ElevatedButton(
                     onPressed: onButton3Pressed,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF1FAEE),
+                        backgroundColor: const Color(0xFFC9D1C7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
                         ),
@@ -110,7 +111,7 @@ class _ControlPageState extends State<ControlPage> {
                 child: ElevatedButton(
                     onPressed: onButton4Pressed,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF1FAEE),
+                        backgroundColor: const Color(0xFFC9D1C7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
                         ),
@@ -133,7 +134,7 @@ class _ControlPageState extends State<ControlPage> {
                 child: ElevatedButton(
                     onPressed: onButton5Pressed,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF1FAEE),
+                        backgroundColor: const Color(0xFFC9D1C7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
                         ),

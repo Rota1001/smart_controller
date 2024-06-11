@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:smart_controller/items/control_button.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PairPage extends StatefulWidget {
   const PairPage({super.key});
@@ -28,7 +28,7 @@ class _PairPageState extends State<PairPage> {
                     color: Color(0xFFF1FAEE)
                 ),
                 onPressed: (){
-                  Navigator.pop(context, ControlButton(name:"Button1", signal: 5));
+                  Navigator.pop(context, true);
                 }
             )
           )
