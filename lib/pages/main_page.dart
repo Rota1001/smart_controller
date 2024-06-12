@@ -5,6 +5,8 @@ import 'package:smart_controller/pages/add_device.dart';
 import 'package:smart_controller/pages/pair_page.dart';
 import 'package:smart_controller/pages/control_page.dart';
 import 'package:smart_controller/items/control_button.dart';
+import 'package:smart_controller/items/save.dart';
+import 'package:smart_controller/items/load.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -15,16 +17,44 @@ class MainPage extends StatefulWidget {
 
 
 class _MainPageState extends State<MainPage> {
-  ControlButton button1 = ControlButton(id:1, name:"button", signal: 1);
+  ControlButton button1 = ControlButton(id:1, name:"button", signal: "1");
   List<ControlButton> buttonList = [
-    ControlButton(id: 0, name: "button", signal: 1),
-    ControlButton(id: 1, name: "button", signal: 2),
-    ControlButton(id: 2, name: "button", signal: 3),
-    ControlButton(id: 3, name: "button", signal: 4),
-    ControlButton(id: 4, name: "button", signal: 5),
+    ControlButton(id: 0, name: "button", signal: "3"),
+    ControlButton(id: 1, name: "button", signal: "4"),
+    ControlButton(id: 2, name: "button", signal: "5"),
+    ControlButton(id: 3, name: "button", signal: "6"),
+    ControlButton(id: 4, name: "button", signal: "7"),
   ];
   @override
   Widget build(BuildContext context) {
+    // Save.saveSetting(buttonList);
+    Load.loadSetting().then(
+        (s){
+          if(s == []){
+            buttonList = [
+              ControlButton(id: 0, name: "button", signal: "1"),
+              ControlButton(id: 1, name: "button", signal: "2"),
+              ControlButton(id: 2, name: "button", signal: "3"),
+              ControlButton(id: 3, name: "button", signal: "4"),
+              ControlButton(id: 4, name: "button", signal: "5"),
+            ];
+          }else{
+            buttonList = s;
+          }
+        }
+    ).then(
+        (s){
+          for(var button in buttonList){
+            print(button.signal);
+          }
+        }
+    ).then(
+        (s){
+          Save.saveSetting(buttonList);
+        }
+    );
+
+    // print(FileReader.readFile("setting.txt"));
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xFF457B9D)
@@ -140,9 +170,6 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> onAddDevicebuttonPressed() async {
     await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice(buttonList)));
-
-    for(ControlButton b in buttonList){
-      print(b.name);
-    }
+    Save.saveSetting(buttonList);
   }
 }

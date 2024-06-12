@@ -1,6 +1,6 @@
 class ControlButton{
   int id;
   String name = "Button";
-  int signal = 0;
+  String signal = "";
   ControlButton({required this.id, required this.name, required this.signal});
 }

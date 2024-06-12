@@ -259,7 +259,7 @@ class _AddDeviceState extends State<AddDevice> {
             ),
             // detecting? Text("Hello"): Container(),
             Container(
-              // padding: const EdgeInsets.fromLTRB(3.4, 50, 2.4, 0),
+              padding: const EdgeInsets.fromLTRB(3.4, 10, 2.4, 0),
               child:Row(
                     children: [
                       ElevatedButton(
