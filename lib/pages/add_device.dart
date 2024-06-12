@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import "package:flutter/material.dart";
 import 'package:smart_controller/items/control_button.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +18,7 @@ class _AddDeviceState extends State<AddDevice> {
   List<ControlButton> buttonList;
   _AddDeviceState(this.buttonList);
   StreamController<bool> busy = StreamController();
+  StreamController<bool> detecting = StreamController();
   TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -198,7 +201,17 @@ class _AddDeviceState extends State<AddDevice> {
     print("Button5 Pressed");
   }
 
-  ControlButton modifyButton(int id){
+  void onDetectButtonPressed(){
+    print("Start detecting");
+    detecting.add(true);
+    Future.delayed(Duration(seconds:3)).then(
+        (s){detecting.add(false);}
+    );
+  }
+
+  void modifyButton(int id){
+    detecting.close();
+    detecting = StreamController<bool>();
     AlertDialog dialog = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10))
@@ -208,6 +221,13 @@ class _AddDeviceState extends State<AddDevice> {
         Column(
           children: [
             TextField(
+              style: GoogleFonts.getFont(
+                  'Staatliches',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 36,
+                  height: 1.5,
+                  color: const Color(0xFF000000)
+              ),
               enableInteractiveSelection: false,
               controller: nameController,
               cursorColor: Color(0xFF1D3557),
@@ -218,28 +238,79 @@ class _AddDeviceState extends State<AddDevice> {
                   hintText: "Name"
               ),
             ),
-            ElevatedButton(
-                onPressed: (){
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1D3557),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    minimumSize: const Size(97, 46)
-                ),
-                child: Text(
-                    'OK',
-                    style: GoogleFonts.getFont(
-                        'Staatliches',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 36,
-                        height: 1.5,
-                        color: const Color(0xFFA8DADC)
-                    )
-                )
+            StreamBuilder<bool>(
+              initialData: false,
+              stream: detecting.stream,
+              builder: (context, snapshot){
+                return snapshot.data!? Container(
+                    padding: const EdgeInsets.fromLTRB(3.4, 10, 2.4, 10),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                      'Detecting...',
+                      style: GoogleFonts.getFont(
+                          'Staatliches',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 36,
+                          height: 1.5,
+                          color: const Color(0xFF000000)
+                      ))
+                ): Container();
+              }
             ),
+            // detecting? Text("Hello"): Container(),
+            Container(
+              // padding: const EdgeInsets.fromLTRB(3.4, 50, 2.4, 0),
+              child:Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: onDetectButtonPressed,
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF1D3557),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)
+                              ),
+                              minimumSize: const Size(97, 46)
+                          ),
+                          child: Text(
+                              'Detect',
+                              style: GoogleFonts.getFont(
+                                  'Staatliches',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 36,
+                                  height: 1.5,
+                                  color: const Color(0xFFA8DADC)
+                              )
+                          )
+                      ),
+                      SizedBox(width: 5),
+                      ElevatedButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF1D3557),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)
+                              ),
+                              minimumSize: const Size(97, 46)
+                          ),
+                          child: Text(
+                              'OK',
+                              style: GoogleFonts.getFont(
+                                  'Staatliches',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 36,
+                                  height: 1.5,
+                                  color: const Color(0xFFA8DADC)
+                              )
+                          )
+                      ),
+                    ]
+              )
+            ),
+
+
+
           ]
         )
 
@@ -256,10 +327,8 @@ class _AddDeviceState extends State<AddDevice> {
     ).then((s){
       busy.add(false);
       buttonList[id].name = nameController.text;
-      // print(nameController.text);
     });
-    // busy.add(false);
-    return ControlButton(id: id, name: "", signal: 1);
+    return;
   }
 }
 
