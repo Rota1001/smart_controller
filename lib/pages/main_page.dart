@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -8,6 +10,8 @@ import 'package:smart_controller/items/control_button.dart';
 import 'package:smart_controller/items/save.dart';
 import 'package:smart_controller/items/load.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -19,6 +23,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   ControlButton button1 = ControlButton(id:1, name:"button", signal: "1");
+  TextEditingController ipController = TextEditingController();
   List<ControlButton> buttonList = [
     ControlButton(id: 0, name: "button1", signal: "3"),
     ControlButton(id: 1, name: "button2", signal: "4"),
@@ -26,6 +31,9 @@ class _MainPageState extends State<MainPage> {
     ControlButton(id: 3, name: "button4", signal: "6"),
     ControlButton(id: 4, name: "button5", signal: "7"),
   ];
+  late Socket socket;
+  bool isConnected = false;
+  StreamController<bool> busy = StreamController();
   @override
   Widget build(BuildContext context) {
     Load.loadSetting().then(
@@ -33,150 +41,193 @@ class _MainPageState extends State<MainPage> {
           buttonList = s;
         }
     );
-    // Save.saveSetting(buttonList);
+    busy.close();
+    busy = StreamController();
+    return StreamBuilder<bool>(
+      initialData: false,
+      stream: busy.stream,
+      builder: (context, snapshot){
+        return Container(
+            decoration: const BoxDecoration(
+                color: Color(0xFF457B9D)
+            ),
+            child: Container(
+                alignment: Alignment.topCenter,
+                padding: const EdgeInsets.fromLTRB(0, 126.5, 0, 117),
+                child: Column(
+                    children:[
+                      Text(
+                          'Smart',
+                          style: GoogleFonts.getFont(
+                              'Staatliches',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 125,
+                              height: 1,
+                              color: const Color(0xFF12315D)
+                          )
 
-    // Save.saveSetting(buttonList);
-    // Load.loadSetting().then(
-    //     (s){
-    //       if(s.length != 5){
-    //         buttonList = [
-    //           ControlButton(id: 0, name: "button", signal: "1"),
-    //           ControlButton(id: 1, name: "button", signal: "2"),
-    //           ControlButton(id: 2, name: "button", signal: "3"),
-    //           ControlButton(id: 3, name: "button", signal: "4"),
-    //           ControlButton(id: 4, name: "button", signal: "5"),
-    //         ];
-    //       }else{
-    //         buttonList = s;
-    //       }
-    //     }
-    // ).then(
-    //     (s){
-    //       for(var button in buttonList){
-    //         print(button.signal);
-    //       }
-    //     }
-    // ).then(
-    //     (s){
-    //       Save.saveSetting(buttonList);
-    //     }
-    // ).then(
-    //     (s){
-    //       print(buttonList.length);
-    //       //this is the question
-    //     }
-    // );
-
-    // print(FileReader.readFile("setting.txt"));
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF457B9D)
-      ),
-      child: Container(
-        alignment: Alignment.topCenter,
-        padding: const EdgeInsets.fromLTRB(0, 126.5, 0, 117),
-        child: Column(
-          children:[
-            Text(
-                'Smart',
-                style: GoogleFonts.getFont(
-                    'Staatliches',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 125,
-                    height: 1,
-                    color: const Color(0xFF12315D)
-                )
-
-            ),
-            Text(
-              'Controller',
-                style: GoogleFonts.getFont(
-                    'Staatliches',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 63,
-                    height: 1,
-                    color: const Color(0xFF12315D)
-                )
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(3.4, 117 - 55, 2.4, 0),
-              child: ElevatedButton(
-                onPressed: onPairButtonPressed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFC9D1C7),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    minimumSize: const Size(277, 67)
-                  ),
-                child: Text(
-                  'Pair the board',
-                  style: GoogleFonts.getFont(
-                      'Staatliches',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 36,
-                      height: 1.5,
-                      color: const Color(0xFF000000)
-                  )
-                )
-              )
-            ),
-            Container(
-                padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
-                child: ElevatedButton(
-                    onPressed: onControlButtonPressed,
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFC9D1C7),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)
-                        ),
-                        minimumSize: const Size(277, 67)
-                    ),
-                    child: Text(
-                        'Control',
-                        style: GoogleFonts.getFont(
-                            'Staatliches',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 36,
-                            height: 1.5,
-                            color: const Color(0xFF000000)
-                        )
-                    )
-                )
-            ),
-            Container(
-                padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
-                child: ElevatedButton(
-                    onPressed: onAddDevicebuttonPressed,
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFC9D1C7),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)
-                        ),
-                        minimumSize: const Size(277, 67)
-                    ),
-                    child: Text(
-                        'Device Setting',
-                        style: GoogleFonts.getFont(
-                            'Staatliches',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 36,
-                            height: 1.5,
-                            color: const Color(0xFF000000)
-                        )
-                    )
+                      ),
+                      Text(
+                          'Controller',
+                          style: GoogleFonts.getFont(
+                              'Staatliches',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 63,
+                              height: 1,
+                              color: const Color(0xFF12315D)
+                          )
+                      ),
+                      Container(
+                          padding: const EdgeInsets.fromLTRB(3.4, 117 - 55, 2.4, 0),
+                          child: ElevatedButton(
+                              onPressed: snapshot.data!? null : onPairButtonPressed,
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFC9D1C7),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0)
+                                  ),
+                                  minimumSize: const Size(277, 67),
+                                  disabledBackgroundColor: const Color(0xFFC9D1C7)
+                              ),
+                              child: Text(
+                                  'Pair the board',
+                                  style: GoogleFonts.getFont(
+                                      'Staatliches',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 36,
+                                      height: 1.5,
+                                      color: const Color(0xFF000000)
+                                  )
+                              )
+                          )
+                      ),
+                      Container(
+                          padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
+                          child: ElevatedButton(
+                              onPressed: snapshot.data!? null: onControlButtonPressed,
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFC9D1C7),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0)
+                                  ),
+                                  minimumSize: const Size(277, 67),
+                                  disabledBackgroundColor: const Color(0xFFC9D1C7)
+                              ),
+                              child: Text(
+                                  'Control',
+                                  style: GoogleFonts.getFont(
+                                      'Staatliches',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 36,
+                                      height: 1.5,
+                                      color: const Color(0xFF000000)
+                                  )
+                              )
+                          )
+                      ),
+                      Container(
+                          padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
+                          child: ElevatedButton(
+                              onPressed: snapshot.data!? null: onAddDevicebuttonPressed,
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFC9D1C7),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0)
+                                  ),
+                                  minimumSize: const Size(277, 67),
+                                  disabledBackgroundColor: const Color(0xFFC9D1C7)
+                              ),
+                              child: Text(
+                                  'Device Setting',
+                                  style: GoogleFonts.getFont(
+                                      'Staatliches',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 36,
+                                      height: 1.5,
+                                      color: const Color(0xFF000000)
+                                  )
+                              )
+                          )
+                      )
+                    ]
                 )
             )
-          ]
-        )
-      )
+        );
+      }
     );
   }
 
 
 
   Future<void> onPairButtonPressed() async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => PairPage()));
+    busy.add(true);
+    AlertDialog dialog = AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
+        backgroundColor: Color(0xFFC9D1C7),
+        actions: [
+            Column(
+              children:[
+                TextField(
+                  style: GoogleFonts.getFont(
+                      'Staatliches',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 36,
+                      height: 1.5,
+                      color: const Color(0xFF000000)
+                  ),
+                  enableInteractiveSelection: false,
+                  controller: ipController,
+                  cursorColor: Color(0xFF1D3557),
+                  decoration: InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF1D3557))
+                      ),
+                      hintText: "IP"
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
+                  alignment: Alignment.topRight,
+                  child: ElevatedButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1D3557),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                          ),
+                          // minimumSize: const Size(97, 46)
+                      ),
+                      child: Text(
+                          'OK',
+                          style: GoogleFonts.getFont(
+                              'Staatliches',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 36 - 10,
+                              height: 1.5,
+                              color: const Color(0xFFA8DADC)
+                          )
+                      )
+                  ),
+                )
+              ]
+            )
+        ]
+    );
+
+    showDialog(
+        useRootNavigator: false,
+        context: context,
+        builder: (BuildContext context){
+            return dialog;
+        }).then((s){
+          busy.add(false);
+          print(ipController.text);
+    });
+    // await Navigator.push(context, MaterialPageRoute(builder: (context) => PairPage()));
 
   }
 

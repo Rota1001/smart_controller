@@ -4,3 +4,4 @@ class ControlButton{
   String signal = "";
   ControlButton({required this.id, required this.name, required this.signal});
 }
+

@@ -9,9 +9,10 @@ class PairPage extends StatefulWidget {
 }
 
 class _PairPageState extends State<PairPage> {
+  TextEditingController ipController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return  Material(child:Container(
         alignment: Alignment.topCenter,
         decoration: const BoxDecoration(
             color: Color(0xFF457B9D)
@@ -31,10 +32,38 @@ class _PairPageState extends State<PairPage> {
                   Navigator.pop(context, true);
                 }
             )
-          )
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Color(0xFFC9D1C7),
+              borderRadius: BorderRadius.all(Radius.circular(10))
+            ),
+            child: Column(
+              children: [
+                TextField(
+                  style: GoogleFonts.getFont(
+                      'Staatliches',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 36,
+                      height: 1.5,
+                      color: const Color(0xFF000000)
+                  ),
+                  enableInteractiveSelection: false,
+                  controller: ipController,
+                  cursorColor: Color(0xFF1D3557),
+                  decoration: InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF1D3557))
+                      ),
+                      hintText: "IP"
+                  ),
+                )
+              ],
+            ),
+          ),
 
         ],
       )
-    );
+    ));
   }
 }
