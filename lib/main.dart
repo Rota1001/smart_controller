@@ -20,9 +20,11 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Flutter App',
+      // debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: MainPage()
-      )
+      ),
+
     );
   }
 }

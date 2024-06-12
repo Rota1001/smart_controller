@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 import 'package:smart_controller/items/control_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
+import 'package:smart_controller/items/save.dart';
 
 class AddDevice extends StatefulWidget {
   final List<ControlButton> buttonList;
@@ -22,6 +23,7 @@ class _AddDeviceState extends State<AddDevice> {
   TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    busy = StreamController();
     return StreamBuilder<bool>(
         initialData: false,
         stream: busy.stream,
@@ -276,7 +278,7 @@ class _AddDeviceState extends State<AddDevice> {
                               style: GoogleFonts.getFont(
                                   'Staatliches',
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 36,
+                                  fontSize: 36 -10,
                                   height: 1.5,
                                   color: const Color(0xFFA8DADC)
                               )
@@ -285,6 +287,8 @@ class _AddDeviceState extends State<AddDevice> {
                       SizedBox(width: 5),
                       ElevatedButton(
                           onPressed: (){
+                            Save.saveSetting(buttonList);
+                            print("Saved");
                             Navigator.pop(context);
                           },
                           style: ElevatedButton.styleFrom(
@@ -299,7 +303,7 @@ class _AddDeviceState extends State<AddDevice> {
                               style: GoogleFonts.getFont(
                                   'Staatliches',
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 36,
+                                  fontSize: 36 - 10,
                                   height: 1.5,
                                   color: const Color(0xFFA8DADC)
                               )
@@ -327,6 +331,7 @@ class _AddDeviceState extends State<AddDevice> {
     ).then((s){
       busy.add(false);
       buttonList[id].name = nameController.text;
+      Save.saveSetting(buttonList);
     });
     return;
   }

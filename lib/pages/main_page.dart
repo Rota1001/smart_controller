@@ -7,6 +7,7 @@ import 'package:smart_controller/pages/control_page.dart';
 import 'package:smart_controller/items/control_button.dart';
 import 'package:smart_controller/items/save.dart';
 import 'package:smart_controller/items/load.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -19,40 +20,52 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   ControlButton button1 = ControlButton(id:1, name:"button", signal: "1");
   List<ControlButton> buttonList = [
-    ControlButton(id: 0, name: "button", signal: "3"),
-    ControlButton(id: 1, name: "button", signal: "4"),
-    ControlButton(id: 2, name: "button", signal: "5"),
-    ControlButton(id: 3, name: "button", signal: "6"),
-    ControlButton(id: 4, name: "button", signal: "7"),
+    ControlButton(id: 0, name: "button1", signal: "3"),
+    ControlButton(id: 1, name: "button2", signal: "4"),
+    ControlButton(id: 2, name: "button3", signal: "5"),
+    ControlButton(id: 3, name: "button4", signal: "6"),
+    ControlButton(id: 4, name: "button5", signal: "7"),
   ];
   @override
   Widget build(BuildContext context) {
-    // Save.saveSetting(buttonList);
     Load.loadSetting().then(
         (s){
-          if(s == []){
-            buttonList = [
-              ControlButton(id: 0, name: "button", signal: "1"),
-              ControlButton(id: 1, name: "button", signal: "2"),
-              ControlButton(id: 2, name: "button", signal: "3"),
-              ControlButton(id: 3, name: "button", signal: "4"),
-              ControlButton(id: 4, name: "button", signal: "5"),
-            ];
-          }else{
-            buttonList = s;
-          }
-        }
-    ).then(
-        (s){
-          for(var button in buttonList){
-            print(button.signal);
-          }
-        }
-    ).then(
-        (s){
-          Save.saveSetting(buttonList);
+          buttonList = s;
         }
     );
+    // Save.saveSetting(buttonList);
+
+    // Save.saveSetting(buttonList);
+    // Load.loadSetting().then(
+    //     (s){
+    //       if(s.length != 5){
+    //         buttonList = [
+    //           ControlButton(id: 0, name: "button", signal: "1"),
+    //           ControlButton(id: 1, name: "button", signal: "2"),
+    //           ControlButton(id: 2, name: "button", signal: "3"),
+    //           ControlButton(id: 3, name: "button", signal: "4"),
+    //           ControlButton(id: 4, name: "button", signal: "5"),
+    //         ];
+    //       }else{
+    //         buttonList = s;
+    //       }
+    //     }
+    // ).then(
+    //     (s){
+    //       for(var button in buttonList){
+    //         print(button.signal);
+    //       }
+    //     }
+    // ).then(
+    //     (s){
+    //       Save.saveSetting(buttonList);
+    //     }
+    // ).then(
+    //     (s){
+    //       print(buttonList.length);
+    //       //this is the question
+    //     }
+    // );
 
     // print(FileReader.readFile("setting.txt"));
     return Container(
@@ -86,7 +99,7 @@ class _MainPageState extends State<MainPage> {
                 )
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(3.4, 117, 2.4, 0),
+              padding: const EdgeInsets.fromLTRB(3.4, 117 - 55, 2.4, 0),
               child: ElevatedButton(
                 onPressed: onPairButtonPressed,
                   style: ElevatedButton.styleFrom(
@@ -159,6 +172,9 @@ class _MainPageState extends State<MainPage> {
       )
     );
   }
+
+
+
   Future<void> onPairButtonPressed() async {
     await Navigator.push(context, MaterialPageRoute(builder: (context) => PairPage()));
 
@@ -170,6 +186,5 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> onAddDevicebuttonPressed() async {
     await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice(buttonList)));
-    Save.saveSetting(buttonList);
   }
 }

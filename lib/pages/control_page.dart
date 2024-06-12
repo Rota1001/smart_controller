@@ -159,27 +159,7 @@ class _ControlPageState extends State<ControlPage> {
     );
   }
   void onButton1Pressed(){
-    // Load.loadSetting().then(
-    //         (s){
-    //       if(s == []){
-    //         buttonList = [
-    //           ControlButton(id: 0, name: "button", signal: "1"),
-    //           ControlButton(id: 1, name: "button", signal: "2"),
-    //           ControlButton(id: 2, name: "button", signal: "3"),
-    //           ControlButton(id: 3, name: "button", signal: "4"),
-    //           ControlButton(id: 4, name: "button", signal: "5"),
-    //         ];
-    //       }else{
-    //         buttonList = s;
-    //       }
-    //     }
-    // ).then(
-    //         (s){
-    //       for(var button in buttonList){
-    //         print(button.name);
-    //       }
-    //     }
-    // );
+
     print("Button1 Pressed");
   }
   void onButton2Pressed(){
@@ -193,5 +173,9 @@ class _ControlPageState extends State<ControlPage> {
   }
   void onButton5Pressed(){
     print("Button5 Pressed");
+  }
+
+  void sendMessageToArduino() async{
+
   }
 }
