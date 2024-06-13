@@ -188,7 +188,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
+                  padding: const EdgeInsets.fromLTRB(3.4, 150, 2.4, 0),
                   alignment: Alignment.topRight,
                   child: ElevatedButton(
                       onPressed: (){
@@ -199,20 +199,21 @@ class _MainPageState extends State<MainPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)
                           ),
-                          // minimumSize: const Size(97, 46)
+                          minimumSize: const Size(97, 46)
                       ),
                       child: Text(
                           'OK',
                           style: GoogleFonts.getFont(
                               'Staatliches',
                               fontWeight: FontWeight.w400,
-                              fontSize: 36 - 10,
+                              fontSize: 36,
                               height: 1.5,
                               color: const Color(0xFFA8DADC)
                           )
                       )
                   ),
-                )
+                ),
+
               ]
             )
         ]
@@ -223,19 +224,96 @@ class _MainPageState extends State<MainPage> {
         context: context,
         builder: (BuildContext context){
             return dialog;
-        }).then((s){
+        }).then((s) async {
           busy.add(false);
+          try{
+            // socket = await Socket.connect(ipController.text, 80);
+            socket = await Socket.connect('192.168.209.69', 80);//demo的時候盡量用成大的網路(IP192.168開頭)
+            setState(() {
+              isConnected = true;
+            });
+            print("Success");
+            socket.listen(handleClient);
+          }catch(e){
+            print(e);
+          }
           print(ipController.text);
     });
     // await Navigator.push(context, MaterialPageRoute(builder: (context) => PairPage()));
 
   }
 
-  void onControlButtonPressed(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ControlPage(buttonList)));
+  void onControlButtonPressed() {
+    if (isConnected){
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => ControlPage(buttonList, socket)));
+    }else{
+      AlertDialog dialog = AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+          backgroundColor: Color(0xFFC9D1C7),
+          actions: [
+            Column(
+              children: [
+                Text(
+                    'Pair the board',
+                    style: GoogleFonts.getFont(
+                        'Staatliches',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 36,
+                        height: 1.5,
+                        color: const Color(0xFF000000)
+                    )
+                ),
+                ElevatedButton(
+                    onPressed: (){
+                      // Save.saveSetting(buttonList);
+                      print("Saved");
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1D3557),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        minimumSize: const Size(97, 46)
+                    ),
+                    child: Text(
+                        'OK',
+                        style: GoogleFonts.getFont(
+                            'Staatliches',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 36 - 10,
+                            height: 1.5,
+                            color: const Color(0xFFA8DADC)
+                        )
+                    )
+                ),
+              ]
+            )
+          ]);
+      busy.add(true);
+      showDialog(
+          useRootNavigator: false,
+          context: context,
+          builder: (BuildContext context){
+            return dialog;
+          }
+      ).then((s){
+        busy.add(false);
+      });
+    }
   }
 
   Future<void> onAddDevicebuttonPressed() async {
     await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice(buttonList)));
+
+  }
+
+  void handleClient(List<int> data) {
+    // Show the address and port of the client
+    String response = utf8.decode(data);
+    print(response);
   }
 }

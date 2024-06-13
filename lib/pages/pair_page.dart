@@ -28,8 +28,14 @@ class _PairPageState extends State<PairPage> {
                     size: 35,
                     color: Color(0xFFF1FAEE)
                 ),
-                onPressed: (){
-                  Navigator.pop(context, true);
+                onPressed: ()async{
+                  Future<void> unfocus() async{
+                    FocusScope.of(context).unfocus();
+                  }
+                  unfocus().then((s){
+                    Navigator.pop(context, true);
+                  });
+
                 }
             )
           ),

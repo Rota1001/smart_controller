@@ -10,11 +10,11 @@ class Load{
     List<String>? signalList = pref.getStringList("signalList");
     if (nameList == null || signalList == null || nameList.length != 5 || signalList.length != 5) {
       return [
-        ControlButton(id: 0, name: "button1", signal: "3"),
-        ControlButton(id: 1, name: "button2", signal: "4"),
-        ControlButton(id: 2, name: "button3", signal: "5"),
-        ControlButton(id: 3, name: "button4", signal: "6"),
-        ControlButton(id: 4, name: "button5", signal: "7"),
+        ControlButton(id: 0, name: "button1", signal: "1"),
+        ControlButton(id: 1, name: "button2", signal: "2"),
+        ControlButton(id: 2, name: "button3", signal: "3"),
+        ControlButton(id: 3, name: "button4", signal: "4"),
+        ControlButton(id: 4, name: "button5", signal: "5"),
       ];
     } else {
       List<ControlButton> buttonList = [];

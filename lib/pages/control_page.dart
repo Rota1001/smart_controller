@@ -2,19 +2,22 @@ import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_controller/items/control_button.dart';
 import 'package:smart_controller/items/load.dart';
-
+import 'dart:convert';
+import 'dart:io';
 
 class ControlPage extends StatefulWidget {
   final List<ControlButton> buttonList;
-  const ControlPage(this.buttonList, {Key? key}): super(key: key);
+  final Socket socket;
+  const ControlPage(this.buttonList, this.socket, {Key? key}): super(key: key);
   // const ControlPage({super.key});
   @override
-  State<ControlPage> createState() => _ControlPageState(this.buttonList);
+  State<ControlPage> createState() => _ControlPageState(this.buttonList, this.socket);
 }
 
 class _ControlPageState extends State<ControlPage> {
   List<ControlButton> buttonList;
-  _ControlPageState(this.buttonList);
+  late Socket socket;
+  _ControlPageState(this.buttonList, this.socket);
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -159,23 +162,31 @@ class _ControlPageState extends State<ControlPage> {
     );
   }
   void onButton1Pressed(){
-
+    sendStringToArduino(buttonList[0].signal);
     print("Button1 Pressed");
   }
   void onButton2Pressed(){
+    sendStringToArduino(buttonList[1].signal);
     print("Button2 Pressed");
   }
   void onButton3Pressed(){
+    sendStringToArduino(buttonList[2].signal);
     print("Button3 Pressed");
   }
   void onButton4Pressed(){
+    sendStringToArduino(buttonList[3].signal);
     print("Button4 Pressed");
   }
   void onButton5Pressed(){
+    sendStringToArduino(buttonList[4].signal);
     print("Button5 Pressed");
   }
-
-  void sendMessageToArduino() async{
-
+  void sendStringToArduino(String message) {
+    try{
+      socket.write(message);
+    }catch(e){
+      print("Fail");
+    }
   }
+
 }
