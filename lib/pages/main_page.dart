@@ -227,14 +227,19 @@ class _MainPageState extends State<MainPage> {
         }).then((s) async {
           busy.add(false);
           try{
+            // socket.destroy();
             // socket = await Socket.connect(ipController.text, 80);
-            socket = await Socket.connect('192.168.209.69', 80);//demo的時候盡量用成大的網路(IP192.168開頭)
+            if(isConnected){
+              socket.destroy();
+            }
+            socket = await Socket.connect('192.168.246.1', 80);//demo的時候盡量用成大的網路(IP192.168開頭)
             setState(() {
               isConnected = true;
             });
             print("Success");
             socket.listen(handleClient);
           }catch(e){
+            isConnected = false;
             print(e);
           }
           print(ipController.text);
@@ -255,44 +260,50 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: Color(0xFFC9D1C7),
           actions: [
             Column(
-              children: [
-                Text(
-                    'Pair the board',
-                    style: GoogleFonts.getFont(
-                        'Staatliches',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 36,
-                        height: 1.5,
-                        color: const Color(0xFF000000)
-                    )
-                ),
-                ElevatedButton(
-                    onPressed: (){
-                      // Save.saveSetting(buttonList);
-                      print("Saved");
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1D3557),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)
-                        ),
-                        minimumSize: const Size(97, 46)
-                    ),
+                children:[
+                  Container(
                     child: Text(
-                        'OK',
+                        'Pair the board first',
                         style: GoogleFonts.getFont(
                             'Staatliches',
                             fontWeight: FontWeight.w400,
-                            fontSize: 36 - 10,
+                            fontSize: 33,
                             height: 1.5,
-                            color: const Color(0xFFA8DADC)
+                            color: const Color(0xFF000000)
                         )
                     )
-                ),
-              ]
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(3.4, 15, 2.4, 0),
+                    alignment: Alignment.topCenter,
+                    child: ElevatedButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF1D3557),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)
+                            ),
+                            minimumSize: const Size(160, 0)
+                        ),
+                        child: Text(
+                            'OK',
+                            style: GoogleFonts.getFont(
+                                'Staatliches',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 33,
+                                height: 1.5,
+                                color: const Color(0xFFA8DADC)
+                            )
+                        )
+                    ),
+                  ),
+
+                ]
             )
-          ]);
+          ]
+      );
       busy.add(true);
       showDialog(
           useRootNavigator: false,
