@@ -47,111 +47,112 @@ class _MainPageState extends State<MainPage> {
       initialData: false,
       stream: busy.stream,
       builder: (context, snapshot){
-        return Container(
-            decoration: const BoxDecoration(
-                color: Color(0xFF457B9D)
-            ),
-            child: Container(
-                alignment: Alignment.topCenter,
-                padding: const EdgeInsets.fromLTRB(0, 126.5, 0, 117),
-                child: Column(
-                    children:[
-                      Text(
-                          'Smart',
-                          style: GoogleFonts.getFont(
-                              'Staatliches',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 125,
-                              height: 1,
-                              color: const Color(0xFF12315D)
-                          )
+        return Scaffold(
+          backgroundColor: Color(0xFF457B9D),
+          body: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Container(
+                  alignment: Alignment.topCenter,
+                  padding: const EdgeInsets.fromLTRB(0, 126.5, 0, 117),
+                  child: Column(
+                      children:[
+                        Text(
+                            'Smart',
+                            style: GoogleFonts.getFont(
+                                'Staatliches',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 125,
+                                height: 1,
+                                color: const Color(0xFF12315D)
+                            )
 
-                      ),
-                      Text(
-                          'Controller',
-                          style: GoogleFonts.getFont(
-                              'Staatliches',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 63,
-                              height: 1,
-                              color: const Color(0xFF12315D)
-                          )
-                      ),
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(3.4, 117 - 55, 2.4, 0),
-                          child: ElevatedButton(
-                              onPressed: snapshot.data!? null : onPairButtonPressed,
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFC9D1C7),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)
-                                  ),
-                                  minimumSize: const Size(277, 67),
-                                  disabledBackgroundColor: const Color(0xFFC9D1C7)
-                              ),
-                              child: Text(
-                                  'Pair the board',
-                                  style: GoogleFonts.getFont(
-                                      'Staatliches',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 36,
-                                      height: 1.5,
-                                      color: const Color(0xFF000000)
-                                  )
-                              )
-                          )
-                      ),
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
-                          child: ElevatedButton(
-                              onPressed: snapshot.data!? null: onControlButtonPressed,
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFC9D1C7),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)
-                                  ),
-                                  minimumSize: const Size(277, 67),
-                                  disabledBackgroundColor: const Color(0xFFC9D1C7)
-                              ),
-                              child: Text(
-                                  'Control',
-                                  style: GoogleFonts.getFont(
-                                      'Staatliches',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 36,
-                                      height: 1.5,
-                                      color: const Color(0xFF000000)
-                                  )
-                              )
-                          )
-                      ),
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
-                          child: ElevatedButton(
-                              onPressed: snapshot.data!? null: onAddDevicebuttonPressed,
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFC9D1C7),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)
-                                  ),
-                                  minimumSize: const Size(277, 67),
-                                  disabledBackgroundColor: const Color(0xFFC9D1C7)
-                              ),
-                              child: Text(
-                                  'Device Setting',
-                                  style: GoogleFonts.getFont(
-                                      'Staatliches',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 36,
-                                      height: 1.5,
-                                      color: const Color(0xFF000000)
-                                  )
-                              )
-                          )
-                      )
-                    ]
-                )
-            )
+                        ),
+                        Text(
+                            'Controller',
+                            style: GoogleFonts.getFont(
+                                'Staatliches',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 63,
+                                height: 1,
+                                color: const Color(0xFF12315D)
+                            )
+                        ),
+                        Container(
+                            padding: const EdgeInsets.fromLTRB(3.4, 117 - 55, 2.4, 0),
+                            child: ElevatedButton(
+                                onPressed: snapshot.data!? null : onPairButtonPressed,
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFC9D1C7),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0)
+                                    ),
+                                    minimumSize: const Size(277, 67),
+                                    disabledBackgroundColor: const Color(0xFFC9D1C7)
+                                ),
+                                child: Text(
+                                    'Pair the board',
+                                    style: GoogleFonts.getFont(
+                                        'Staatliches',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 36,
+                                        height: 1.5,
+                                        color: const Color(0xFF000000)
+                                    )
+                                )
+                            )
+                        ),
+                        Container(
+                            padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
+                            child: ElevatedButton(
+                                onPressed: snapshot.data!? null: onControlButtonPressed,
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFC9D1C7),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0)
+                                    ),
+                                    minimumSize: const Size(277, 67),
+                                    disabledBackgroundColor: const Color(0xFFC9D1C7)
+                                ),
+                                child: Text(
+                                    'Control',
+                                    style: GoogleFonts.getFont(
+                                        'Staatliches',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 36,
+                                        height: 1.5,
+                                        color: const Color(0xFF000000)
+                                    )
+                                )
+                            )
+                        ),
+                        Container(
+                            padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
+                            child: ElevatedButton(
+                                onPressed: snapshot.data!? null: onAddDevicebuttonPressed,
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFC9D1C7),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0)
+                                    ),
+                                    minimumSize: const Size(277, 67),
+                                    disabledBackgroundColor: const Color(0xFFC9D1C7)
+                                ),
+                                child: Text(
+                                    'Device Setting',
+                                    style: GoogleFonts.getFont(
+                                        'Staatliches',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 36,
+                                        height: 1.5,
+                                        color: const Color(0xFF000000)
+                                    )
+                                )
+                            )
+                        )
+                      ]
+                  )
+              )
+          )
         );
       }
     );
@@ -188,7 +189,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(3.4, 150, 2.4, 0),
+                  padding: const EdgeInsets.fromLTRB(3.4, 30, 2.4, 0),
                   alignment: Alignment.topRight,
                   child: ElevatedButton(
                       onPressed: (){
