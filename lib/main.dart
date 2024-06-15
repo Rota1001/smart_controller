@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_controller/pages/main_page.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -18,6 +19,9 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return const MaterialApp(
       title: 'Flutter App',
       // debugShowCheckedModeBanner: false,

@@ -162,23 +162,24 @@ class _ControlPageState extends State<ControlPage> {
     );
   }
   void onButton1Pressed(){
-    sendStringToArduino(buttonList[0].signal);
+    sendStringToArduino(buttonList[0].signal + "\$");
+    // sendStringToArduino(buttonList[0].signal);
     print("Button1 Pressed");
   }
   void onButton2Pressed(){
-    sendStringToArduino(buttonList[1].signal);
+    sendStringToArduino(buttonList[1].signal + "\$");
     print("Button2 Pressed");
   }
   void onButton3Pressed(){
-    sendStringToArduino(buttonList[2].signal);
+    sendStringToArduino(buttonList[2].signal + "\$");
     print("Button3 Pressed");
   }
   void onButton4Pressed(){
-    sendStringToArduino(buttonList[3].signal);
+    sendStringToArduino(buttonList[3].signal + "\$");
     print("Button4 Pressed");
   }
   void onButton5Pressed(){
-    sendStringToArduino(buttonList[4].signal);
+    sendStringToArduino(buttonList[4].signal + "\$");
     print("Button5 Pressed");
   }
   void sendStringToArduino(String message) {

@@ -233,7 +233,8 @@ class _MainPageState extends State<MainPage> {
             if(isConnected){
               socket.destroy();
             }
-            socket = await Socket.connect('192.168.246.1', 80);//demo的時候盡量用成大的網路(IP192.168開頭)
+            // socket = await Socket.connect('192.168.56.1', 80);
+            socket = await Socket.connect('192.168.1.103', 80);//demo的時候盡量用成大的網路(IP192.168開頭)
             setState(() {
               isConnected = true;
             });
