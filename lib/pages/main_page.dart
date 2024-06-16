@@ -25,11 +25,11 @@ class _MainPageState extends State<MainPage> {
   ControlButton button1 = ControlButton(id:1, name:"button", signal: "1");
   TextEditingController ipController = TextEditingController();
   List<ControlButton> buttonList = [
-    ControlButton(id: 0, name: "button1", signal: "3"),
-    ControlButton(id: 1, name: "button2", signal: "4"),
-    ControlButton(id: 2, name: "button3", signal: "5"),
-    ControlButton(id: 3, name: "button4", signal: "6"),
-    ControlButton(id: 4, name: "button5", signal: "7"),
+    ControlButton(id: 0, name: "button1", signal: "0"),
+    ControlButton(id: 1, name: "button2", signal: "1"),
+    ControlButton(id: 2, name: "button3", signal: "2"),
+    ControlButton(id: 3, name: "button4", signal: "3"),
+    ControlButton(id: 4, name: "button5", signal: "4"),
   ];
   late Socket socket;
   bool isConnected = false;
@@ -234,7 +234,8 @@ class _MainPageState extends State<MainPage> {
               socket.destroy();
             }
             // socket = await Socket.connect('192.168.56.1', 80);
-            socket = await Socket.connect('192.168.1.103', 80);//demo的時候盡量用成大的網路(IP192.168開頭)
+            socket = await Socket.connect(ipController.text, 80);
+            // socket = await Socket.connect('192.168.1.100', 80);//demo的時候盡量用成大的網路(IP192.168開頭)
             setState(() {
               isConnected = true;
             });
@@ -320,7 +321,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> onAddDevicebuttonPressed() async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice(buttonList)));
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice(buttonList, socket)));
 
   }
 

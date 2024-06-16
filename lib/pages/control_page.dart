@@ -163,7 +163,6 @@ class _ControlPageState extends State<ControlPage> {
   }
   void onButton1Pressed(){
     sendStringToArduino(buttonList[0].signal + "\$");
-    // sendStringToArduino(buttonList[0].signal);
     print("Button1 Pressed");
   }
   void onButton2Pressed(){

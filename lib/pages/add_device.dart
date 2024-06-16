@@ -8,16 +8,18 @@ import 'package:smart_controller/items/save.dart';
 
 class AddDevice extends StatefulWidget {
   final List<ControlButton> buttonList;
-  const AddDevice(this.buttonList, {Key? key}): super(key: key);
+  final Socket socket;
+  const AddDevice(this.buttonList, this.socket, {Key? key}): super(key: key);
   // const AddDevice({super.key});
 
   @override
-  State<AddDevice> createState() => _AddDeviceState(buttonList);
+  State<AddDevice> createState() => _AddDeviceState(this.buttonList, this.socket);
 }
 
 class _AddDeviceState extends State<AddDevice> {
   List<ControlButton> buttonList;
-  _AddDeviceState(this.buttonList);
+  late Socket socket;
+  _AddDeviceState(this.buttonList, this.socket);
   StreamController<bool> busy = StreamController();
   StreamController<bool> detecting = StreamController();
   TextEditingController nameController = TextEditingController();
@@ -203,12 +205,20 @@ class _AddDeviceState extends State<AddDevice> {
     print("Button5 Pressed");
   }
 
-  void onDetectButtonPressed(){
+  void onDetectButtonPressed(int id){
     print("Start detecting");
     detecting.add(true);
-    Future.delayed(Duration(seconds:3)).then(
+    sendStringToArduino("detect $id\$");
+    Future.delayed(Duration(seconds:5)).then(
         (s){detecting.add(false);}
     );
+  }
+  void sendStringToArduino(String message) {
+    try{
+      socket.write(message);
+    }catch(e){
+      print("Fail");
+    }
   }
 
   void modifyButton(int id){
@@ -265,7 +275,7 @@ class _AddDeviceState extends State<AddDevice> {
               child:Row(
                     children: [
                       ElevatedButton(
-                          onPressed: onDetectButtonPressed,
+                          onPressed: () => onDetectButtonPressed(id),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF1D3557),
                               shape: RoundedRectangleBorder(
