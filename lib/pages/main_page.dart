@@ -270,7 +270,7 @@ class _MainPageState extends State<MainPage> {
                         style: GoogleFonts.getFont(
                             'Staatliches',
                             fontWeight: FontWeight.w400,
-                            fontSize: 33,
+                            fontSize: 30,
                             height: 1.5,
                             color: const Color(0xFF000000)
                         )
@@ -321,7 +321,72 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> onAddDevicebuttonPressed() async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice(buttonList, socket)));
+    if (isConnected){
+      await Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice(buttonList, socket)));
+    }else{
+      AlertDialog dialog = AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+          backgroundColor: Color(0xFFC9D1C7),
+          actions: [
+            Column(
+                children:[
+                  Container(
+                      child: Text(
+                          'Pair the board first',
+                          style: GoogleFonts.getFont(
+                              'Staatliches',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 30,
+                              height: 1.5,
+                              color: const Color(0xFF000000)
+                          )
+                      )
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(3.4, 15, 2.4, 0),
+                    alignment: Alignment.topCenter,
+                    child: ElevatedButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF1D3557),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)
+                            ),
+                            minimumSize: const Size(160, 0)
+                        ),
+                        child: Text(
+                            'OK',
+                            style: GoogleFonts.getFont(
+                                'Staatliches',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 33,
+                                height: 1.5,
+                                color: const Color(0xFFA8DADC)
+                            )
+                        )
+                    ),
+                  ),
+
+                ]
+            )
+          ]
+      );
+      busy.add(true);
+      showDialog(
+          useRootNavigator: false,
+          context: context,
+          builder: (BuildContext context){
+            return dialog;
+          }
+      ).then((s){
+        busy.add(false);
+      });
+    }
+
 
   }
 
